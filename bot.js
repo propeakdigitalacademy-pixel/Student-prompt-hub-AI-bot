@@ -30,7 +30,7 @@ db.defaults({
 // GROQ AI CLIENT
 // ─────────────────────────────────────────
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-const PRIMARY_MODEL   = process.env.GROQ_MODEL          || 'qwen/qwen3-32b';
+const PRIMARY_MODEL   = process.env.GROQ_MODEL          || 'gemma2-9b-it';
 const FALLBACK_MODEL  = process.env.GROQ_FALLBACK_MODEL || 'llama3-8b-8192';
 
 // ─────────────────────────────────────────
@@ -283,9 +283,9 @@ bot.start(async (ctx) => {
   ctx.session.mode = null;
 
   await ctx.replyWithMarkdown(
-    `👋 Welcome *${displayName}*\\! 🎓\n` +
-    `I'm your personal *Student Prompt Hub AI*, here to make learning easy, fast, and free\\!\n\n` +
-    `💡 *Pro Tip:* Join our WhatsApp channel for daily study tips, updates, and secret resources\\!\n\n` +
+    `👋 Welcome *${displayName}*! 🎓\n` +
+    `I'm your personal *Student Prompt Hub AI*, here to make learning easy, fast, and free!\n\n` +
+    `💡 *Pro Tip:* Join our WhatsApp channel for daily study tips, updates, and secret resources!\n\n` +
     `👇 *Tap a button below to get started:*`,
     startKeyboard
   );
@@ -317,7 +317,7 @@ bot.action('back_start', async (ctx) => {
   ctx.session.mode = null;
 
   await ctx.replyWithMarkdown(
-    `👋 Welcome back *${displayName}*\\! 🎓\nWhat would you like to do next?\n\n💡 *Join our WhatsApp channel for daily study tips\\!*`,
+    `👋 Welcome back *${displayName}*! 🎓\nWhat would you like to do next?\n\n💡 *Join our WhatsApp channel for daily study tips!*`,
     startKeyboard
   );
 });
@@ -335,7 +335,7 @@ bot.action('mode_image', async (ctx) => {
   ctx.session.imagesReceived = [];
 
   await ctx.replyWithMarkdown(
-    `📸 *Image Mode Activated\\!*\n\nHow many images are you sending? _(Reply with a number, e\\.g\\. 3)_\\.\n_I will wait until I receive all of them before analyzing\\._`
+    `📸 *Image Mode Activated!*\n\nHow many images are you sending? _(Reply with a number, e\\.g\\. 3)_\\.\n_I will wait until I receive all of them before analyzing\\._`
   );
 });
 
@@ -352,7 +352,7 @@ bot.action('mode_pdf', async (ctx) => {
   ctx.session.pdfsReceived = [];
 
   await ctx.replyWithMarkdown(
-    `📄 *PDF/Doc Mode Activated\\!*\n\nHow many PDF files are you sending? _(Reply with a number, e\\.g\\. 2)_\\.\n_I will wait until I receive all of them before analyzing\\._`
+    `📄 *PDF/Doc Mode Activated!*\n\nHow many PDF files are you sending? _(Reply with a number, e\\.g\\. 2)_\\.\n_I will wait until I receive all of them before analyzing\\._`
   );
 });
 
@@ -406,7 +406,7 @@ bot.action('view_commands', async (ctx) => {
     `/new\\_topic — Clear memory & start fresh\n` +
     `/motivate — Get a study quote\n` +
     `/timer — Start a 25-min Pomodoro timer\n\n` +
-    `_Tip: You can also type naturally, like "explain this" or "quiz me"\\!_`
+    `_Tip: You can also type naturally, like "explain this" or "quiz me"!_`
   );
 });
 
@@ -422,7 +422,7 @@ bot.action('view_profile', async (ctx) => {
   const displayName = getDisplayName(userId, ctx.from.username);
 
   await ctx.replyWithMarkdown(
-    `⚙️ *Your Profile, ${displayName}\\!*\n\n` +
+    `⚙️ *Your Profile, ${displayName}!*\n\n` +
     `👤 *Name:* ${displayName}\n` +
     `📅 *Member Since:* ${user.joined_date || 'Unknown'}\n` +
     `🔢 *Total Queries:* ${user.query_count || 0}\n` +
@@ -446,7 +446,7 @@ async function handleActionCallback(ctx, intent) {
     : '';
 
   if (!lastContent && !ctx.session.lastAnalyzedContent) {
-    return ctx.replyWithMarkdown(`⚠️ *No content found\\!*\nPlease upload an image, PDF, or type a question first\\.`);
+    return ctx.replyWithMarkdown(`⚠️ *No content found!*\nPlease upload an image, PDF, or type a question first\\.`);
   }
 
   const content = ctx.session.lastAnalyzedContent || lastContent;
@@ -462,7 +462,7 @@ async function handleActionCallback(ctx, intent) {
 
   const result = await callGroq(messages);
   if (!result) {
-    return ctx.replyWithMarkdown(`⚠️ AI is busy\\. Try again in a minute\\!`);
+    return ctx.replyWithMarkdown(`⚠️ AI is busy\\. Try again in a minute!`);
   }
 
   incrementQuery(userId);
@@ -510,7 +510,7 @@ bot.action('admin_stats', async (ctx) => {
     `📊 *Admin Dashboard Stats*\n\n` +
     `🔢 API Calls Used: *${apiUsage}*\n` +
     `👥 Total Users: *${total}*\n\n` +
-    `_Use /stats PECULIAR123 for full stats\\._`
+    `_Use /stats PECULIAR123 for full stats\._`
   );
 });
 
@@ -535,14 +535,14 @@ bot.command('setname', async (ctx) => {
 
   const args = ctx.message.text.split(' ').slice(1);
   if (args.length === 0) {
-    return ctx.replyWithMarkdown(`❌ Please provide a name\\.\nUsage: \`/setname YourName\``);
+    return ctx.replyWithMarkdown(`❌ Please provide a name.\nUsage: \`/setname YourName\``);
   }
 
   const newName = args.join(' ').trim();
   db.set(`users.${userId}.custom_name`, newName).write();
 
   await ctx.replyWithMarkdown(
-    `✅ *Username Set Successfully\\!*\n\nHi *${newName}*, welcome to your smart learning hub\\! I'll call you by this name from now on\\. 🚀`
+    `✅ *Username Set Successfully!*\n\nHi *${newName}*, welcome to your smart learning hub\\! I'll call you by this name from now on\\. 🚀`
   );
 });
 
@@ -557,12 +557,12 @@ bot.command('profile', async (ctx) => {
   const displayName = getDisplayName(userId, ctx.from.username);
 
   await ctx.replyWithMarkdown(
-    `⚙️ *Your Profile, ${displayName}\\!*\n\n` +
+    `⚙️ *Your Profile, ${displayName}!*\n\n` +
     `👤 *Name:* ${displayName}\n` +
     `📅 *Member Since:* ${user.joined_date || 'Unknown'}\n` +
     `🔢 *Total Queries:* ${user.query_count || 0}\n` +
     `📛 *Telegram Username:* ${user.username || 'Not set'}\n\n` +
-    `_Use /setname YourName to set a custom nickname\\._`
+    `_Use /setname YourName to set a custom nickname._`
   );
 });
 
@@ -575,19 +575,19 @@ bot.command('help', async (ctx) => {
   const displayName = getDisplayName(userId, ctx.from.username);
 
   await ctx.replyWithMarkdown(
-    `📚 *Help Guide — ${displayName}\\!*\n\n` +
+    `📚 *Help Guide — ${displayName}!*\n\n` +
     `*How to use Student Prompt Hub AI:*\n\n` +
-    `1\\. Click /start to open the welcome menu\n` +
-    `2\\. Tap *📂 Open Main Menu* to see your tools\n` +
-    `3\\. *Upload Notes:* Tap 📸 for images or 📄 for PDFs\n` +
-    `4\\. Tell the bot how many files you're sending\n` +
-    `5\\. Upload all files one by one\n` +
-    `6\\. Choose an action: Summarize, Quiz, Flashcards, etc\\.\n` +
-    `7\\. You can also just *type a question* in the chat\\!\n\n` +
+    `1. Click /start to open the welcome menu\n` +
+    `2. Tap *📂 Open Main Menu* to see your tools\n` +
+    `3. *Upload Notes:* Tap 📸 for images or 📄 for PDFs\n` +
+    `4. Tell the bot how many files you're sending\n` +
+    `5. Upload all files one by one\n` +
+    `6. Choose an action: Summarize, Quiz, Flashcards, etc\\.\n` +
+    `7. You can also just *type a question* in the chat!\n\n` +
     `*🧠 Smart Features:*\n` +
     `• *Swipe/Reply* to any bot message to ask a follow-up question about it\n` +
     `• Type naturally: "explain this", "quiz me", "simplify"\n` +
-    `• Use /new\\_topic to clear memory and start fresh\n\n` +
+    `• Use /new_topic to clear memory and start fresh\n\n` +
     `*📋 View All Commands:* /start → Main Menu → 📜 View All Commands`
   );
 });
@@ -612,7 +612,7 @@ bot.command('features', async (ctx) => {
     `🔢 *Math/Science Solver* — Step-by-step solutions\n` +
     `📖 *Smart Notes* — Convert raw data to structured study notes\n` +
     `💬 *Smart Context* — Reply to any message for follow-up questions\n` +
-    `🧹 *Memory Control* — Clear context with /new\\_topic anytime\n` +
+    `🧹 *Memory Control* — Clear context with /new_topic anytime\n` +
     `⏱ *Pomodoro Timer* — 25-minute study timer via /timer\n` +
     `🎯 *Motivation* — Daily study quotes via /motivate`
   );
@@ -627,10 +627,10 @@ bot.command('about', async (ctx) => {
 
   await ctx.replyWithMarkdown(
     `🎓 *About Student Prompt Hub AI*\n\n` +
-    `Built by *Propeak Digital Academy*\\.\n` +
+    `Built by the founder of *Propeak Digital Academy and student prompt hub*.\n` +
     `Founder: *Peculiar*\n\n` +
-    `Peculiar is an expert *Video Editor*, *Web Developer*, *Graphics Designer*, and a master of many online skills\\.\n\n` +
-    `This bot was created to make quality education accessible to every student for free\\.\n\n` +
+    `Peculiar is a *Video Editor*, *Web Dev*, *brand promoter*, *including graphics* and an expert of many in many online skills.\n\n` +
+    `This bot was created to make quality education accessible to every student for free.\n\n` +
     `💼 Want to hire Peculiar or see his work?`,
     Markup.inlineKeyboard([
       [Markup.button.url('💬 Contact Peculiar', WA_SUPPORT)]
@@ -646,7 +646,7 @@ bot.command('support', async (ctx) => {
   if (isBanned(userId)) return;
 
   await ctx.replyWithMarkdown(
-    `💬 *Need Support?*\n\nReach out directly to our team on WhatsApp\\!`,
+    `💬 *Need Support?*\n\nReach out directly to our team on WhatsApp!`,
     Markup.inlineKeyboard([
       [Markup.button.url('💬 Chat with Peculiar on WhatsApp', WA_SUPPORT)]
     ])
@@ -661,7 +661,7 @@ bot.command('feedback', async (ctx) => {
   if (isBanned(userId)) return;
 
   await ctx.replyWithMarkdown(
-    `✍️ *Send Us Feedback\\!*\n\nWe love hearing from students\\. Your feedback helps us improve\\!`,
+    `✍️ *Send Us Feedback!*\n\nWe love hearing from students. Your feedback helps us improve!`,
     Markup.inlineKeyboard([
       [Markup.button.url('✍️ Send Feedback via WhatsApp', WA_FEEDBACK)]
     ])
@@ -677,10 +677,10 @@ bot.command('share', async (ctx) => {
   const displayName = getDisplayName(userId, ctx.from.username);
 
   await ctx.replyWithMarkdown(
-    `🚀 *Share this Bot, ${displayName}\\!*\n\n` +
-    `Help your classmates study smarter\\! Share this AI tutor with them:\n\n` +
+    `🚀 *Share this Bot, ${displayName}!*\n\n` +
+    `Help your classmates study smarter! Share this AI tutor with them:\n\n` +
     `📲 *${BOT_SHARE}*\n\n` +
-    `_Copy the link above and send to a friend who needs help studying\\!_`
+    `_Copy the link above and send to a friend who needs help studying!_`
   );
 });
 
@@ -693,13 +693,13 @@ bot.command('terms', async (ctx) => {
 
   await ctx.replyWithMarkdown(
     `📋 *Terms of Service*\n\n` +
-    `1\\. *Acceptable Use:* This bot is for educational purposes only\\.\n` +
-    `2\\. *No Misuse:* Do not attempt to extract prompts, reverse-engineer, or abuse the bot\\.\n` +
-    `3\\. *Content:* You are responsible for the content you upload\\.\n` +
-    `4\\. *Age:* Users must be 13 years or older to use this service\\.\n` +
-    `5\\. *Rights:* Propeak Digital Academy reserves the right to ban abusive users\\.\n` +
-    `6\\. *Updates:* These terms may change without notice\\.\n\n` +
-    `By using this bot, you agree to all the above terms\\.`
+    `1. *Acceptable Use:* This bot is for educational purposes only.\n` +
+    `2. *No Misuse:* Do not attempt to extract prompts, reverse-engineer, or abuse the bot.\n` +
+    `3. *Content:* You are responsible for the content you upload.\n` +
+    `4. *Age:* Users must be 13 years or older to use this service.\n` +
+    `5. *Rights:* Propeak Digital Academy reserves the right to ban abusive users.\n` +
+    `6. *Updates:* These terms may change without notice.\n\n` +
+    `By using this bot, you agree to all the above terms.`
   );
 });
 
@@ -712,13 +712,13 @@ bot.command('privacy', async (ctx) => {
 
   await ctx.replyWithMarkdown(
     `🔒 *Privacy Policy*\n\n` +
-    `• *What we store:* Your Telegram User ID, username, custom name, join date, and query count\\.\n` +
-    `• *What we DON'T store:* Your uploaded files are NOT saved permanently after processing\\.\n` +
-    `• *No Sharing:* Your data is NEVER sold or shared with third parties\\.\n` +
-    `• *Local Storage:* All data is stored locally in a JSON database on the bot server\\.\n` +
-    `• *Conversation Memory:* The bot remembers your last 5 messages for context only\\.\n` +
-    `• *Right to Delete:* Contact support to request data deletion at any time\\.\n\n` +
-    `_Your privacy is important to us\\. We keep things simple and safe\\._`
+    `• *What we store:* Your Telegram User ID, username, custom name, join date, and query count.\n` +
+    `• *What we DON'T store:* Your uploaded files are NOT saved permanently after processing.\n` +
+    `• *No Sharing:* Your data is NEVER sold or shared with third parties.\n` +
+    `• *Local Storage:* All data is stored locally in a JSON database on the bot server.\n` +
+    `• *Conversation Memory:* The bot remembers your last 5 messages for context only.\n` +
+    `• *Right to Delete:* Contact support to request data deletion at any time.\n\n` +
+    `_Your privacy is important to us. We keep things simple and safe._`
   );
 });
 
@@ -734,7 +734,7 @@ bot.command('new_topic', async (ctx) => {
   ctx.session.mode = null;
 
   await ctx.replyWithMarkdown(
-    `🧹 *Context Cleared\\!*\nReady for a new subject\\. What do you want to learn next?`,
+    `🧹 *Context Cleared!*\nReady for a new subject. What do you want to learn next?`,
     mainMenuKeyboard
   );
 });
@@ -750,7 +750,7 @@ bot.command('motivate', async (ctx) => {
   const randomQuote = studyQuotes[Math.floor(Math.random() * studyQuotes.length)];
 
   await ctx.replyWithMarkdown(
-    `🌟 *Daily Motivation for ${displayName}\\!*\n\n${randomQuote}\n\n💪 *You got this, ${displayName}\\! Keep pushing\\!*`
+    `🌟 *Daily Motivation for ${displayName}!*\n\n${randomQuote}\n\n💪 *You got this, ${displayName}! Keep pushing!*`
   );
 });
 
@@ -763,23 +763,23 @@ bot.command('timer', async (ctx) => {
   const displayName = getDisplayName(userId, ctx.from.username);
 
   await ctx.replyWithMarkdown(
-    `⏱ *Pomodoro Timer Started, ${displayName}\\!*\n\n` +
-    `🔴 *25 minutes of focused study begins NOW\\!*\n\n` +
+    `⏱ *Pomodoro Timer Started, ${displayName}!*\n\n` +
+    `🔴 *25 minutes of focused study begins NOW!*\n\n` +
     `📌 *The Pomodoro Technique:*\n` +
     `• Study hard for 25 minutes ⏳\n` +
     `• Take a 5-minute break ☕\n` +
     `• After 4 rounds, take a 15–30 min break 🛌\n\n` +
-    `_Put your phone down and focus\\. I'll be here when you're done\\! 💪_`
+    `_Put your phone down and focus. I'll be here when you're done! 💪_`
   );
 
   // Schedule a reminder after 25 minutes
   setTimeout(async () => {
     try {
       await ctx.replyWithMarkdown(
-        `🔔 *Time's up, ${displayName}\\!*\n\n` +
-        `✅ Your 25-minute Pomodoro session is complete\\!\n\n` +
-        `☕ *Take a 5-minute break now\\.*\n` +
-        `You've earned it\\! Great work\\! 🎉`
+        `🔔 *Time's up, ${displayName}!*\n\n` +
+        `✅ Your 25-minute Pomodoro session is complete!\n\n` +
+        `☕ *Take a 5-minute break now.*\n` +
+        `You've earned it! Great work! 🎉`
       );
     } catch (e) {
       console.error('[Timer Reminder Error]', e.message);
@@ -801,7 +801,7 @@ async function handleLearningCommand(ctx, intent, extraArg) {
 
   if (!content) {
     return ctx.replyWithMarkdown(
-      `⚠️ *No content to work with\\!*\nPlease upload an image, PDF, or type your notes/question first, then use this command\\.`
+      `⚠️ *No content to work with!*\nPlease upload an image, PDF, or type your notes/question first, then use this command.`
     );
   }
 
@@ -818,7 +818,7 @@ async function handleLearningCommand(ctx, intent, extraArg) {
 
   const result = await callGroq(messages);
   if (!result) {
-    return ctx.replyWithMarkdown(`⚠️ AI is busy\\. Please try again in a moment\\!`);
+    return ctx.replyWithMarkdown(`⚠️ AI is busy. Please try again in a moment!`);
   }
 
   incrementQuery(userId);
@@ -861,7 +861,7 @@ bot.command('admin', async (ctx) => {
 
   ctx.session.isAdmin = true;
   await ctx.replyWithMarkdown(
-    `🛡️ *Admin Dashboard*\n\nWelcome, Administrator\\. Choose an action:`,
+    `🛡️ *Admin Dashboard*\n\nWelcome, Administrator. Choose an action:`,
     adminDashboardKeyboard
   );
 });
@@ -874,7 +874,7 @@ bot.command('ban', async (ctx) => {
   if (!targetId) return ctx.replyWithMarkdown(`❌ Usage: \`/ban <PIN> <USER\\_ID>\``);
 
   db.set(`users.${targetId}.is_banned`, true).write();
-  await ctx.replyWithMarkdown(`✅ User \`${targetId}\` has been *banned*\\.`);
+  await ctx.replyWithMarkdown(`✅ User \`${targetId}\` has been *banned*.`);
 });
 
 bot.command('unban', async (ctx) => {
@@ -882,10 +882,10 @@ bot.command('unban', async (ctx) => {
   const pin = parts[1];
   const targetId = parts[2];
   if (!pin || !checkAdminPin(pin)) return; // SILENT FAIL
-  if (!targetId) return ctx.replyWithMarkdown(`❌ Usage: \`/unban <PIN> <USER\\_ID>\``);
+  if (!targetId) return ctx.replyWithMarkdown(`❌ Usage: \`/unban <PIN> <USER_ID>\``);
 
   db.set(`users.${targetId}.is_banned`, false).write();
-  await ctx.replyWithMarkdown(`✅ User \`${targetId}\` has been *unbanned*\\.`);
+  await ctx.replyWithMarkdown(`✅ User \`${targetId}\` has been *unbanned*.`);
 });
 
 bot.command('broadcast', async (ctx) => {
@@ -913,7 +913,7 @@ bot.command('broadcast', async (ctx) => {
   }
 
   await ctx.replyWithMarkdown(
-    `✅ *Broadcast Complete\\!*\n\n📤 Sent: *${successCount}*\n❌ Failed: *${failCount}*`
+    `✅ *Broadcast Complete!*\n\n📤 Sent: *${successCount}*\n❌ Failed: *${failCount}*`
   );
 });
 
@@ -942,7 +942,7 @@ bot.command('reset_usage', async (ctx) => {
   if (!pin || !checkAdminPin(pin)) return; // SILENT FAIL
 
   db.set('admin.api_usage', 0).write();
-  await ctx.replyWithMarkdown(`✅ *API usage counter has been reset to 0\\.*`);
+  await ctx.replyWithMarkdown(`✅ *API usage counter has been reset to 0.*`);
 });
 
 // Change PIN: /admin <PIN> pc <NEW_PIN>
@@ -954,7 +954,7 @@ bot.hears(/^\/admin\s+(\S+)\s+pc\s+(\S+)$/, async (ctx) => {
 
   db.set('admin.pin', newPin).write();
   process.env.ADMIN_PIN = newPin;
-  await ctx.replyWithMarkdown(`✅ *Admin PIN changed successfully\\!*\nNew PIN is saved securely\\.`);
+  await ctx.replyWithMarkdown(`✅ *Admin PIN changed successfully!*\nNew PIN is saved securely.`);
 });
 
 // ─────────────────────────────────────────
@@ -982,7 +982,7 @@ bot.on('photo', async (ctx) => {
 
     // All images received
     await ctx.replyWithMarkdown(
-      `✅ *All ${expected} image${expected > 1 ? 's' : ''} received\\!* What should I do?\nChoose an action or type a command:`,
+      `✅ *All ${expected} image${expected > 1 ? 's' : ''} received!* What should I do?\nChoose an action or type a command:`,
       actionKeyboard
     );
 
@@ -1047,7 +1047,7 @@ bot.on('photo', async (ctx) => {
 
     const result = await callGroq(visionMessages, true, base64, 'image/jpeg');
     if (!result) {
-      return ctx.replyWithMarkdown(`⚠️ Could not analyze image\\. Try again or rephrase your request\\.`);
+      return ctx.replyWithMarkdown(`⚠️ Could not analyze image. Try again or rephrase your request.`);
     }
 
     ctx.session.lastAnalyzedContent = result;
@@ -1058,7 +1058,7 @@ bot.on('photo', async (ctx) => {
     await ctx.replyWithMarkdown(result, actionKeyboard);
   } catch (e) {
     console.error('[Photo Handler Error]', e.message);
-    await ctx.replyWithMarkdown(`❌ Could not process this image\\. Please try again\\.`);
+    await ctx.replyWithMarkdown(`❌ Could not process this image. Please try again.`);
   }
 });
 
@@ -1082,7 +1082,7 @@ bot.on('document', async (ctx) => {
     const expected = ctx.session.pdfCount;
 
     if (received < expected) {
-      await ctx.replyWithMarkdown(`✅ *PDF ${received}/${expected} received\\. Send the next one\\.*`);
+      await ctx.replyWithMarkdown(`✅ *PDF ${received}/${expected} received. Send the next one.*`);
       return;
     }
 
@@ -1102,7 +1102,7 @@ bot.on('document', async (ctx) => {
 
   // === SINGLE DOCUMENT ===
   if (!mimeType.includes('pdf') && !mimeType.includes('document') && !mimeType.includes('text') && !mimeType.includes('msword') && !mimeType.includes('officedocument')) {
-    return ctx.replyWithMarkdown(`❌ *Unsupported file type\\.*\nPlease upload a PDF, Word document, or text file\\.`);
+    return ctx.replyWithMarkdown(`❌ *Unsupported file type.*\nPlease upload a PDF, Word document, or text file.`);
   }
 
   await ctx.replyWithMarkdown(`📄 *Processing your document, ${displayName}\\.\\.\\.*`);
@@ -1146,7 +1146,7 @@ bot.on('document', async (ctx) => {
 
     const result = await callGroq(messages);
     if (!result) {
-      return ctx.replyWithMarkdown(`⚠️ Could not analyze document\\. Please try again\\.`);
+      return ctx.replyWithMarkdown(`⚠️ Could not analyze document. Please try again.`);
     }
 
     ctx.session.lastAnalyzedContent = extractedText;
@@ -1157,7 +1157,7 @@ bot.on('document', async (ctx) => {
     await ctx.replyWithMarkdown(result, actionKeyboard);
   } catch (e) {
     console.error('[Document Handler Error]', e.message);
-    await ctx.replyWithMarkdown(`❌ Could not read this file\\. Try another or paste the text directly\\.`);
+    await ctx.replyWithMarkdown(`❌ Could not read this file. Try another or paste the text directly.`);
   }
 });
   
@@ -1178,24 +1178,24 @@ bot.on('text', async (ctx) => {
   if (ctx.session.mode === 'image_count_pending') {
     const count = parseInt(text, 10);
     if (isNaN(count) || count < 1 || count > 20) {
-      return ctx.replyWithMarkdown(`❌ Please enter a valid number between 1 and 20\\.`);
+      return ctx.replyWithMarkdown(`❌ Please enter a valid number between 1 and 20.`);
     }
     ctx.session.imageCount = count;
     ctx.session.imagesReceived = [];
     ctx.session.mode = 'image_awaiting';
-    await ctx.replyWithMarkdown(`Got it\\! Sending *${count}* image${count > 1 ? 's' : ''}\\. Please upload them now\\.`);
+    await ctx.replyWithMarkdown(`Got it! Sending *${count}* image${count > 1 ? 's' : ''}. Please upload them now.`);
     return;
   }
 
   if (ctx.session.mode === 'pdf_count_pending') {
     const count = parseInt(text, 10);
     if (isNaN(count) || count < 1 || count > 20) {
-      return ctx.replyWithMarkdown(`❌ Please enter a valid number between 1 and 20\\.`);
+      return ctx.replyWithMarkdown(`❌ Please enter a valid number between 1 and 20.`);
     }
     ctx.session.pdfCount = count;
     ctx.session.pdfsReceived = [];
     ctx.session.mode = 'pdf_awaiting';
-    await ctx.replyWithMarkdown(`Got it\\! Sending *${count}* PDF${count > 1 ? 's' : ''}\\. Please upload them now\\.`);
+    await ctx.replyWithMarkdown(`Got it! Sending *${count}* PDF${count > 1 ? 's' : ''}. Please upload them now.`);
     return;
   }
 
@@ -1203,7 +1203,7 @@ bot.on('text', async (ctx) => {
   const secretPatterns = /\b(llm|gpt|groq|openai|claude|gemini|model|api key|source code|how were you built|show me your code|your backend|your api|what model|which model)\b/i;
   if (secretPatterns.test(text)) {
     return ctx.replyWithMarkdown(
-      `🤖 *Top Secret\\!* 🤫\nI'm an advanced AI tutor designed solely to help you learn\\. I can't reveal my internal code, models, or secrets\\.\nBut I *can* help you ace that exam\\! Want to try a quiz? 📝`
+      `🤖 *Top Secret!* 🤫\nI'm an advanced AI tutor designed solely to help you learn. I can't reveal my internal code, models, or secrets.\nBut I *can* help you ace that exam! Want to try a quiz? 📝`
     );
   }
 
@@ -1211,8 +1211,8 @@ bot.on('text', async (ctx) => {
   const ownerPatterns = /\b(who (made|built|created|owns|is your owner|is your creator)|your owner|your maker|who is peculiar|who is behind|propeak)\b/i;
   if (ownerPatterns.test(text)) {
     return ctx.replyWithMarkdown(
-      `🎓 My owner is the one and only *Peculiar*\\!\n\n` +
-      `He is the *Founder of Propeak Digital Academy*, an expert *Video Editor*, *Web Dev*, *Graphics Designer*, and a master of many online jobs\\.\n\n` +
+      `🎓 My owner is the one and only *Peculiar*!\n\n` +
+      `He is the *Founder of Propeak Digital Academy*, and the *founder of student prompt hub*, who is a *Video Editor*, *Web Dev*, *brand promoter*, *including graphics*, and a master of many online jobs.\n\n` +
       `💼 *Want to see his full bio or hire him?*\nCheck his WhatsApp profile: *07042999216*\nOr click here to chat:`,
       Markup.inlineKeyboard([
         [Markup.button.url('💬 Contact Peculiar', WA_SUPPORT)]
@@ -1224,7 +1224,7 @@ bot.on('text', async (ctx) => {
   const outOfScopePatterns = /\b(write (me )?(a )?(bot|script|code|app|website|hack|exploit|virus|malware)|how (do i|to) hack|make me a (website|bot|app)|build an app|create a script)\b/i;
   if (outOfScopePatterns.test(text)) {
     return ctx.replyWithMarkdown(
-      `⚠️ *Out of Scope\\!*\nI am strictly a *Student Tutor*\\. I can help you *understand* coding concepts or study subjects, but I don't write scripts, hacks, or build apps\\.\nLet's focus on your studies\\! Upload a note or ask a theory question\\! 📖`
+      `⚠️ *Out of Scope!*\nI am strictly a *Student Tutor*. I can help you *understand* coding concepts or study subjects, but I don't write scripts, hacks, or build apps.\nLet's focus on your studies\\! Upload a note or ask a theory question! 📖`
     );
   }
 
@@ -1269,7 +1269,7 @@ bot.on('text', async (ctx) => {
   } catch (e) {}
 
   if (!result) {
-    return ctx.replyWithMarkdown(`⚠️ *AI is busy right now\\.*\nPlease try again in a minute\\! 🔄`);
+    return ctx.replyWithMarkdown(`⚠️ *AI is busy right now.*\nPlease try again in a minute! 🔄`);
   }
 
   incrementQuery(userId);
@@ -1301,7 +1301,7 @@ bot.on('message', async (ctx) => {
     const userId = ensureUser(ctx);
     if (isBanned(userId)) return;
     await ctx.replyWithMarkdown(
-      `❓ *Unknown message type\\.*\nI can handle text, images, and PDF documents\\.\nType /help for a full guide\\.`
+      `❓ *Unknown message type.*\nI can handle text, images, and PDF documents.\nType /help for a full guide.`
     );
   }
 });
@@ -1312,7 +1312,7 @@ bot.on('message', async (ctx) => {
 bot.catch((err, ctx) => {
   console.error(`[Bot Error] Type: ${ctx.updateType}`, err);
   try {
-    ctx.replyWithMarkdown(`⚠️ *Something went wrong\\.*\nPlease try again or type /start to restart\\.`);
+    ctx.replyWithMarkdown(`⚠️ *Something went wrong.*\nPlease try again or type /start to restart.`);
   } catch (e) {}
 });
 
