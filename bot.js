@@ -260,16 +260,16 @@ const adminDashboardKeyboard = Markup.inlineKeyboard([
 // STUDY QUOTES for /motivate
 // ─────────────────────────────────────────
 const studyQuotes = [
-  "📖 *"The secret of getting ahead is getting started."* — Mark Twain",
-  "🌟 *"Education is the most powerful weapon which you can use to change the world."* — Nelson Mandela",
-  "🚀 *"The more that you read, the more things you will know."* — Dr. Seuss",
-  "💡 *"An investment in knowledge pays the best interest."* — Benjamin Franklin",
-  "🎯 *"Success is the sum of small efforts, repeated day in and day out."* — Robert Collier",
-  "📚 *"Intelligence plus character—that is the goal of true education."* — Martin Luther King Jr.",
-  "⭐ *"The beautiful thing about learning is that nobody can take it away from you."* — B.B. King",
-  "🔥 *"Believe you can and you're halfway there."* — Theodore Roosevelt",
-  "✨ *"Study hard, dream big, achieve the impossible."*",
-  "🌍 *"Your education is a dress rehearsal for a life that is yours to lead."* — Nora Ephron"
+  '📖 *"The secret of getting ahead is getting started."* — Mark Twain",
+  '🌟 *"Education is the most powerful weapon which you can use to change the world."* — Nelson Mandela",
+  '🚀 *"The more that you read, the more things you will know."* — Dr. Seuss",
+  '💡 *"An investment in knowledge pays the best interest."* — Benjamin Franklin",
+  '🎯 *"Success is the sum of small efforts, repeated day in and day out."* — Robert Collier",
+  '📚 *"Intelligence plus character—that is the goal of true education."* — Martin Luther King Jr.",
+  '⭐ *"The beautiful thing about learning is that nobody can take it away from you."* — B.B. King",
+  '🔥 *"Believe you can and you are halfway there."* — Theodore Roosevelt",
+  '✨ *"Study hard, dream big, achieve the impossible."*",
+  '🌍 *"Your education is a dress rehearsal for a life that is yours to lead."* — Nora Ephron"
 ];
 
 // ─────────────────────────────────────────
