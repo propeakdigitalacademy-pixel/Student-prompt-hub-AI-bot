@@ -30,7 +30,7 @@ db.defaults({
 // GROQ AI CLIENT
 // ─────────────────────────────────────────
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-const PRIMARY_MODEL   = process.env.GROQ_MODEL          || 'meta-llama/llama-4-scout-17b-16e-instruct';
+const PRIMARY_MODEL   = process.env.GROQ_MODEL          || 'qwen/qwen3-32b';
 const FALLBACK_MODEL  = process.env.GROQ_FALLBACK_MODEL || 'llama3-8b-8192';
 
 // ─────────────────────────────────────────
@@ -255,7 +255,6 @@ const adminDashboardKeyboard = Markup.inlineKeyboard([
   [Markup.button.callback('👥 Users', 'admin_users'), Markup.button.callback('📊 Stats', 'admin_stats')],
   [Markup.button.callback('🚫 Ban User', 'admin_ban'), Markup.button.callback('📢 Broadcast', 'admin_broadcast')]
 ]);
-  ]);
 
 // ─────────────────────────────────────────
 // STUDY QUOTES for /motivate
